@@ -3,17 +3,15 @@ package top.bitmore.dax.sdk.openapi.common.utils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.TimeZone;
 
 /**
  * Time Utils  <br/>
- *
- * @author bitmore-sdk-team
- * @date 2018/04/28
+ * Created by newex-team on 2018/2/3 20:30. <br/>
  */
 public class DateUtils {
 
@@ -56,7 +54,7 @@ public class DateUtils {
         if (time == null) {
             time = new Date();
         }
-        String timeStyle = null;
+        final String timeStyle;
         switch (style) {
             case 1: {
                 timeStyle = DateUtils.TIME_STYLE_S1;
@@ -101,36 +99,66 @@ public class DateUtils {
     }
 
     /**
-     * UNIX timestamp ISO 8601 rule eg: 2018-02-03T05:34:14.110Z
+     * UNIX timestamp {@see https://en.wikipedia.org/wiki/Unix_time}
      */
-    public static String getUnixTime() {
-        return Instant.now().toString();
+    public static long getUnixTime() {
+        return Instant.now().getEpochSecond();
     }
 
     /**
-     * epoch time   eg: 1517662142.557
+     * Return ISO-8601 format time eg: 2018-06-17T11:15:27Z
+     * {@see https://en.wikipedia.org/wiki/ISO_8601}
+     *
+     * @param date current date
+     * @return iso8601 format time
      */
-    public static String getEpochTime(final Date... time) {
-        final long milliseconds;
-        if (time != null && time.length > 0) {
-            milliseconds = time[0].getTime();
-        } else {
-            milliseconds = Instant.now().toEpochMilli();
-        }
-        final BigDecimal bd1 = new BigDecimal(milliseconds);
+    public static String getIsoTime(final Date date) {
+        final DateTimeFormatter isoLocalDateTime = DateTimeFormatter.ISO_INSTANT;
+        return isoLocalDateTime.format(date.toInstant());
+    }
+
+    /**
+     * Return ISO-8601 format time eg: 2018-06-17T11:15:27Z
+     * {@see https://en.wikipedia.org/wiki/ISO_8601}
+     *
+     * @param instant current Instant
+     * @return iso8601 format time
+     */
+    public static String getIsoTime(final Instant instant) {
+        final DateTimeFormatter isoLocalDateTime = DateTimeFormatter.ISO_INSTANT;
+        return isoLocalDateTime.format(instant);
+    }
+
+    /**
+     * epoch time  eg: 1517662142.557
+     */
+    public static String getEpochTime(final Date time) {
+        return DateUtils.getEpochTime(time.getTime());
+    }
+
+    /**
+     * epoch time  eg: 1517662142.557
+     */
+    public static String getEpochTime(final long epochMills) {
+        final BigDecimal bd1 = new BigDecimal(epochMills);
         final BigDecimal bd2 = new BigDecimal(1000);
-        return bd1.divide(bd2).toString();
+        return bd1.divide(bd2, 3, BigDecimal.ROUND_DOWN).toString();
     }
 
     /**
      * convert UTC timestamp：2018-02-03T16:56:29.919Z  -> object: Sun Feb 04 00:56:29 CST 2018
      */
-    public static Date parseUTCTime(final String utcTime) throws ParseException {
+    public static Date parseUTCTime(final String utcTime) {
         if (StringUtils.isEmpty(utcTime)) {
             return null;
         }
-        final SimpleDateFormat sdfi = (SimpleDateFormat) DateUtils.SDF.clone();
-        return sdfi.parse(utcTime);
+
+        try {
+            final SimpleDateFormat sdf = (SimpleDateFormat) DateUtils.SDF.clone();
+            return sdf.parse(utcTime);
+        } catch (final Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -142,6 +170,6 @@ public class DateUtils {
         }
         final BigDecimal bd1 = new BigDecimal(decimalTime);
         final BigDecimal bd2 = new BigDecimal(1000);
-        return new Date(bd1.multiply(bd2).longValue());
+        return new Date(Instant.ofEpochMilli(bd1.multiply(bd2).longValue()).toEpochMilli());
     }
 }

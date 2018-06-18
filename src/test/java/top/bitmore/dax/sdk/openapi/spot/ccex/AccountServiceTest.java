@@ -2,7 +2,7 @@ package top.bitmore.dax.sdk.openapi.spot.ccex;
 
 import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
-import top.bitmore.dax.sdk.openapi.client.BitMoreClient;
+import top.bitmore.dax.sdk.openapi.client.BitMoreRestClient;
 import top.bitmore.dax.sdk.openapi.common.domain.Record;
 import top.bitmore.dax.sdk.openapi.spot.ccex.domain.Account;
 import top.bitmore.dax.sdk.openapi.spot.ccex.domain.Ledger;
@@ -44,7 +44,7 @@ public class AccountServiceTest extends BaseTest {
     }
 
     public void testExample() throws IOException {
-        final BitMoreClient bitmoreClient = BitMoreClient.builder()
+        final BitMoreRestClient bitmoreClient = BitMoreRestClient.builder()
                 .configuration(this.parameter)
                 .build();
 

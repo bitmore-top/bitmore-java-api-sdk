@@ -2,7 +2,7 @@ package top.bitmore.dax.sdk.openapi.spot.common;
 
 import org.junit.After;
 import org.junit.Before;
-import top.bitmore.dax.sdk.openapi.client.BitMoreClient;
+import top.bitmore.dax.sdk.openapi.client.BitMoreRestClient;
 import top.bitmore.dax.sdk.openapi.common.domain.ClientParameter;
 import top.bitmore.dax.sdk.openapi.common.enums.SupportedLocaleEnum;
 
@@ -37,11 +37,11 @@ public class BaseTest {
             .locale(SupportedLocaleEnum.EN_US.getName())
             .build();
 
-    protected BitMoreClient bitmoreClient;
+    protected BitMoreRestClient bitmoreClient;
 
     @Before
     public void setup() {
-        this.bitmoreClient = BitMoreClient.builder()
+        this.bitmoreClient = BitMoreRestClient.builder()
                 .configuration(this.parameter)
                 .build();
     }

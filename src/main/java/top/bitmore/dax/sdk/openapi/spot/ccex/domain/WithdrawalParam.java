@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 /**
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
 @Data

@@ -3,7 +3,7 @@ package top.bitmore.dax.sdk.openapi.common.enums;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
 public enum OrderStatusEnEnum {

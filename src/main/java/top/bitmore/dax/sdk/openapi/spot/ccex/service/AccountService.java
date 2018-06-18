@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
 public interface AccountService {

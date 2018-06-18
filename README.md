@@ -30,7 +30,7 @@ A Java sdk for bitmore exchange API
                 
 ```
 
-2. 创建 BitMoreClient
+2. 创建 BitMoreRestClient
 
 ```java
 
@@ -58,13 +58,13 @@ A Java sdk for bitmore exchange API
             .baseUrl(baseUrl)
             .build();
 
-    BitMoreClient bitmoreClient = BitMoreClient.builder()
+    BitMoreRestClient bitmoreClient = BitMoreRestClient.builder()
                 .configuration(parameter)
                 .build();
 
 ```
 3. 接口调用
-- 创建 BitMoreClient 后便可以调用服务接口，以获取币对信息为例
+- 创建 BitMoreRestClient 后便可以调用服务接口，以获取币对信息为例
 ```java
 	List<CodeInfo> codeInfos = this.bitmoreClient.spot().publics().products()
 ```

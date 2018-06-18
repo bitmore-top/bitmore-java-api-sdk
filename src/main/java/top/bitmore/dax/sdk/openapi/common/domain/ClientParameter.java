@@ -24,7 +24,7 @@ public class ClientParameter {
      */
     private String passphrase;
     /**
-     * 服务 url，非必填 默认 https://www.bitmore.top/api/v1/
+     * 服务 url，非必填 默认 https://www.coinmex.com/api/v1/
      */
     private String baseUrl;
     /**

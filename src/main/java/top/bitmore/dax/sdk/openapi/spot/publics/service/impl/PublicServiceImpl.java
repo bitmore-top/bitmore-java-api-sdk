@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
 public class PublicServiceImpl implements PublicService {
@@ -43,7 +43,7 @@ public class PublicServiceImpl implements PublicService {
     @Override
     public OrderBook orderbook(final String code, Integer size) throws IOException {
         this.checkCode(code);
-        if (size == null || (size != null && size < 0)) {
+        if (size == null || size < 0) {
             size = 200;
         }
         return this.productApi.orderbook(code, size).execute().body();

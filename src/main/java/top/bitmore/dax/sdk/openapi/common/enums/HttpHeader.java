@@ -1,7 +1,7 @@
 package top.bitmore.dax.sdk.openapi.common.enums;
 
 /**
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
 public class HttpHeader {

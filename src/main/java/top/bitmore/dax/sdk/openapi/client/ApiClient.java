@@ -13,13 +13,13 @@ import top.bitmore.dax.sdk.openapi.common.utils.DateUtils;
 import top.bitmore.dax.sdk.openapi.common.utils.SignatureUtils;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Base Api Client
  *
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
 public class ApiClient {
@@ -65,32 +65,31 @@ public class ApiClient {
         @Override
         public Response intercept(final Chain chain) throws IOException {
             final Request original = chain.request();
-            final String timestamp = DateUtils.timeToString(new Date(), 9);
+            final String timestamp = DateUtils.getEpochTime(Instant.now().toEpochMilli());
             final String contentType = "application/json";
-            String sign = null;
             try {
-                sign = SignatureUtils.generate(timestamp.toString(),
+                final String sign = SignatureUtils.generate(timestamp,
                         original.method().toUpperCase(),
                         original.url().url().getPath(),
                         original.url().encodedQuery(),
-                        original.body() == null ? null : this.bodyToString(original),
+                        original.body() == null ? "" : this.bodyToString(original),
                         this.clientParameter.getSecretKey());
+
+                final String localFormat = "locale=%s";
+                final Request.Builder requestBuilder = original.newBuilder()
+                        .addHeader(HttpHeader.ACCESS_KEY, this.clientParameter.getApiKey())
+                        .addHeader(HttpHeader.ACCESS_PASSPHRASE, this.clientParameter.getPassphrase())
+                        .addHeader(HttpHeader.ACCESS_SIGN, sign)
+                        .addHeader(HttpHeader.CONTENT_TYPE, contentType)
+                        .addHeader(HttpHeader.COOKIE, String.format(localFormat, this.clientParameter.getLocale()))
+                        .addHeader(HttpHeader.X_LOCALE, this.clientParameter.getLocale())
+                        .addHeader(HttpHeader.ACCESS_TIMESTAMP, timestamp);
+
+                final Request request = requestBuilder.build();
+                return chain.proceed(request);
             } catch (final Exception e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
-
-            final String localFormat = "locale=%s";
-            final Request.Builder requestBuilder = original.newBuilder()
-                    .addHeader(HttpHeader.ACCESS_KEY, this.clientParameter.getApiKey())
-                    .addHeader(HttpHeader.ACCESS_PASSPHRASE, this.clientParameter.getPassphrase())
-                    .addHeader(HttpHeader.ACCESS_SIGN, sign)
-                    .addHeader(HttpHeader.CONTENT_TYPE, contentType)
-                    .addHeader(HttpHeader.COOKIE, String.format(localFormat, this.clientParameter.getLocale()))
-                    .addHeader(HttpHeader.X_LOCALE, this.clientParameter.getLocale())
-                    .addHeader(HttpHeader.ACCESS_TIMESTAMP, timestamp);
-
-            final Request request = requestBuilder.build();
-            return chain.proceed(request);
         }
 
         private String bodyToString(final Request request) {

@@ -13,7 +13,7 @@ import java.util.Base64;
 /**
  * API Signature Utils
  *
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
 public class SignatureUtils {

@@ -14,7 +14,7 @@ import top.bitmore.dax.sdk.openapi.spot.ccex.domain.WithdrawalParam;
 import java.util.List;
 
 /**
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
 public interface AccountApi {

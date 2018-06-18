@@ -9,16 +9,16 @@ import top.bitmore.dax.sdk.openapi.futures.FuturesApiFacade;
 import top.bitmore.dax.sdk.openapi.spot.SpotApiFacade;
 
 /**
- * bitmore exchange rest open api Client
+ * coinmex exchange rest open api Client
  *
- * @author bitmore-sdk-team
+ * @author coinmex-sdk-team
  * @date 2018/04/28
  */
-public class BitMoreClient {
+public class BitMoreRestClient {
     private final ApiClient apiClient;
     private final ClientParameter configuration;
 
-    private BitMoreClient(final Builder builder) {
+    private BitMoreRestClient(final Builder builder) {
         this.configuration = builder.configuration;
         Validate.notNull(this.configuration, "configuration is null");
         Validate.notNull(this.configuration.getApiKey(), "apiKey is null");
@@ -61,8 +61,8 @@ public class BitMoreClient {
             return this;
         }
 
-        public BitMoreClient build() {
-            return new BitMoreClient(this);
+        public BitMoreRestClient build() {
+            return new BitMoreRestClient(this);
         }
     }
 }
